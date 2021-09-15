@@ -1,0 +1,73 @@
+{% extends "navbar.html" %}
+{% block content %}
+<br>
+
+<div class="notika-status-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30">
+                    <div class="website-traffic-ctn">
+                        <h2><span class="counter">{{etudiants}}</span></h2>
+                        <p>Total Etudiants</p>
+                    </div>
+                    <div class="sparkline-bar-stats1">9,4,8,6,5,6,4,8,3,5,9,5</div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30">
+                    <div class="website-traffic-ctn">
+                        <h2><span class="counter">{{specialites}}</span></h2>
+                        <p>Total spécialité</p>
+                    </div>
+                    <div class="sparkline-bar-stats2">1,4,8,3,5,6,4,8,3,3,9,5</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Status area-->
+<!-- Start Sale Statistic area-->
+
+<div class="sale-statistic-area">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
+                <div class="sale-statistic-inner notika-shadow mg-tb-30">
+                    <div class="curved-inner-pro">
+                        <div class="curved-ctn">
+                            <h1>Faculté</h1>
+                            <p>c'est une école d'ingénieurs tunisienne. Elle forme des ingénieurs dans les domaines du
+                                génie civil, électrique, industriel et mécanique, de l'informatique et des
+                                télécommunications.
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <p> </p> <img src="static/un.png" alt="Image Faculté" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                <div class="statistic-right-area notika-shadow mg-tb-30 sm-res-mg-t-0">
+                    <div class="past-day-statis">
+                        <a href="{{ url_for('moyenne') }}">
+                            <h2>Les moyennes des étudiants</h2>
+
+                    </div>
+                    <img src="static/note.png" alt="note" />
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+
+{% endblock content %}

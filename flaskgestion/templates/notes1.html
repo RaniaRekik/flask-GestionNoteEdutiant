@@ -1,0 +1,316 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+
+
+<div class="modals-area">
+    <div class="container">
+        {% if current_user.role =='enseignant' %}
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="modals-list mg-t-30">
+                    <div class="modals-single">
+                        <div class="modals-hd">
+                            <h2>Note Semestre 1</h2>
+                        </div>
+                        <div class="modals-default-cl">
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#myModalone">Ajouter une notes</button>
+                            <div class="modal fade" id="myModalone" role="dialog">
+                                <div class="modal-dialog modals-default">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2>Ajouter une note</h2>
+                                            <form method="POST" action="" novalidate>
+                                                {{ form.hidden_tag() }}
+
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">Etudiant</label>
+
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+                                                            <select name="etudiant" class="form-select form-select-sm"
+                                                                aria-label=".form-select-sm example">
+                                                                <option selected>Selectionnez un étudiant</option>
+                                                                {% for etudiant in etudiants %}
+                                                                <option name="etudiant" value="{{etudiant.id}} ">
+                                                                    {{etudiant.id}} {{etudiant.nom}}</option>
+                                                                {% endfor %}
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">matiere</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+                                                            <select name="matiere" class="form-select form-select-sm"
+                                                                aria-label=".form-select-sm example">
+                                                                <option selected>Selectionnez une matiére</option>
+                                                                {% for module in modules %}
+                                                                {% for matiere in matieres %}
+                                                                {% if( matiere.module_id == module.id) and
+                                                                (module.nomSemestre=='Semestre1') %}
+                                                                <option name="matiere" value="{{matiere.id}} ">
+                                                                    {{matiere.id}} {{matiere.nomMatiere}}</option>
+                                                                {% endif %}
+                                                                {% endfor %}
+                                                                {% endfor %}
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">NoteDs</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+                                                            {% if form.NoteDs.errors %}
+                                                            {{ form.NoteDs(class="form-control form-control-lg
+                                                            is-invalid") }}
+                                                            {% for error in form.NoteDs.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+                                                            {% else %}
+                                                            {{ form.NoteDs(class="form-control input-sm") }}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">NoteExam</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+                                                            {% if form.NoteExam.errors %}
+                                                            {{ form.NoteExam(class="form-control form-control-lg
+                                                            is-invalid") }}
+                                                            {% for error in form.NoteExam.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+                                                            {% else %}
+                                                            {{ form.NoteExam(class="form-control input-sm") }}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">NoteTp</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+                                                            {% if form.NoteTp.errors %}
+                                                            {{ form.NoteTp(class="form-control form-control-lg
+                                                            is-invalid") }}
+                                                            {% for error in form.NoteTp.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+
+                                                            {% else %}
+                                                            {{ form.NoteTp(class="form-control input-sm") }}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-success notika-btn-success">Ajouter</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<br><br>
+<div class="normal-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list">
+                    <div class="basic-tb-hd">
+                        <h2>La liste des notes du semestre 1</h2>
+                    </div>
+                    <div class="bsc-tbl">
+                        <table class="table table-sc-ex">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom Etudiant</th>
+                                    <th>Matiere</th>
+                                    <th>Note Examen</th>
+                                    <th>Note DS</th>
+                                    <th>Note Tp</th>
+                                    <th>Moyenne Matiére</th>
+                                    {% if current_user.role =='enseignant' %}
+                                    <th>Modifier</th>
+                                    <th>Supprimer</th>
+                                    {% endif  %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s1 in s1Notes.items %}
+                                <tr>
+                                    <td></td>
+                                   
+                                    <td>{{ s1.EtudinatsS1Notes.nom }}</td>
+                                   
+                                    {% for matiere in matieres %}
+                                    {% if s1.matiere_id == matiere.id %}
+                                    <td>{{ matiere.nomMatiere }}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>{{ s1.NoteDs }}</td>
+                                    <td>{{ s1.NoteExam }}</td>
+                                    <td>{{ s1.NoteTp }}</td>
+                                    <td> {{ s1.NoteExam * 0.5 + s1.NoteDs*0.2 + s1.NoteTp *0.3 }} </td>
+                                    {% if current_user.role =='enseignant' %}
+                                    <td><a href="/updateS1notes/{{s1.id}}" class="btn btn-info info-icon-notika"
+                                        data-toggle="modal" data-target="#modaledit{{s1.id}}"><i
+                                            class="notika-icon notika-refresh"></i></a></td>
+                                    <td>
+                                        <form action="{{ url_for('deleteS1notes') }}" method="POST">
+                                            <input type="hidden" name="id" value="{{s1.id}}">
+                                            <button type="submit" class="btn btn-danger danger-icon-notika"><i
+                                                    class="notika-icon notika-close"></i></button>
+                                        </form>
+                                                                        
+                                    </td>
+                                    {% endif  %}
+      
+                                </tr>
+
+                                <div class="modals-default-cl">
+                                    <div id="modaledit{{s1.id}}" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modals-default">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{url_for('updateS1notes')}}" method="POST">
+                                                        <label class="hrzn-fm">Modifier note :</label>
+
+                                                        <div class="modal-body">
+                                                            
+
+                                                                <input type="hidden" name="id" value="{{s1.id}}">
+                                                           
+                                                            <div class="row">
+                                                            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                                <label class="hrzn-fm">Note ds</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                            <div class="nk-int-st">
+                                                               
+                                                                <input type="text" class="form-control input-sm"
+                                                                    name="NoteDs" value="{{s1.NoteDs}}">
+                                                                </div>
+                                                                    </div>
+                                                                    </div>
+                                                                    <br>
+                                                                    <div class="row">
+                                                                                                                                    
+                                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                                        <label class="hrzn-fm">Note Tp</label>
+                                                                    </div>
+                                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                                        <div class="nk-int-st">
+                                                                    <input type="text" class="form-control input-sm"
+                                                                        name="NoteTp"
+                                                                        value="{{s1.NoteTp}}">
+                                                                        </div>
+                                                                        </div>
+                                                                                </div>
+                                                                                <br>
+                                                                        <div class="row">
+                                                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                                            <label class="hrzn-fm">Note Exam</label>
+                                                                        </div>
+                                                                        <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                                    <div class="nk-int-st">
+                                                                        <input type="text" class="form-control input-sm"
+                                                                            name="NoteExam"
+                                                                            value="{{s1.NoteExam}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                <br>
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-default"
+                                                                        type="submit">Update</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <br>
+        <div>
+            <ul class="wizard-nav-ac">
+    
+                {% for page_num in s1Notes.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                {% if s1Notes.page == page_num %}
+                <a class="btn btn-warning mb-4" href="{{ url_for('s1notes', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                <a class="btn btn-outline-lightblue mb-4" href="{{ url_for('s1notes', page=page_num) }}">{{ page_num
+                    }}</a>
+                {% endif %}
+                {% else %}
+                ...
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+
+<div class="breadcomb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list mg-t-30">
+                    <div class="basic-tb-hd">
+                        <h2>Moyene de semestre 1</h2>
+
+                    </div>
+                    <div class="bsc-tbl-cls">
+                        <table class="table table-cl">
+                            <thead>
+                                <tr class="danger">
+                                    <th>#</th>
+                                    <th>Etudiant</th>
+                                    <th>Moyenne semestre 1 </th>
+                                    <th>Moyenne semestre 2 </th>
+                                    <th>Moyenne générale</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+
+
+
+                                <tr class="warning">
+                                    {% for s1 in s1Notes %}
+                                    <td></td>
+                                    <td>{{s1.EtudinatsS1Notes.nom}}</td>
+                                    <td>{{s1.EtudinatsS1Notes.moyenneS1()}}</td>
+
+                                    {% for s2 in s2Notes %}
+                                    <td>{{s2.EtudinatsS2Notes.moyenneS2()}}</td>
+                                    <td> {{( s2.EtudinatsS2Notes.moyenneS2() + s1.EtudinatsS1Notes.moyenneS1()) /2}}
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

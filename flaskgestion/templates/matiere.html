@@ -1,0 +1,320 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+<div class="modals-area">
+    <div class="container">
+        {% if current_user.role =='admin' %}
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="modals-list mg-t-30">
+                    <div class="modals-single">
+                        <div class="modals-hd">
+                            <h2>Nouvelle matiére</h2>
+                        </div>
+                        <div class="modals-default-cl">
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#myModalone">Ajouter une matiére</button>
+
+                            <div class="modal fade" id="myModalone" role="dialog">
+                                <div class="modal-dialog modals-default">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2>Ajouter une matiere</h2>
+
+                                            <form method="POST" action="" novalidate>
+                                                {{ form.hidden_tag() }}
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">Nom matiére</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+                                                            {% if form.nomMatiere.errors %}
+                                                            {{ form.nomMatiere(class="form-control form-control-lg
+                                                            is-invalid") }}
+                                                            {% for error in form.nomMatiere.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+
+                                                            {% else %}
+                                                            {{ form.nomMatiere(class="form-control input-sm") }}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">coefficient</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+
+                                                            {% if form.coefficient.errors %}
+                                                            {{ form.coefficient(class="form-control form-control-lg
+                                                            is-invalid") }}
+
+                                                            {% for error in form.coefficient.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+
+                                                            {% else %}
+                                                            {{ form.coefficient(class="form-control input-sm") }}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">description</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+
+                                                        <div class="nk-int-st">
+                                                            {% if form.description.errors %}
+                                                            {{ form.description(class="form-control form-control-lg
+                                                            is-invalid") }}
+
+                                                            {% for error in form.description.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+
+                                                            {% else %}
+                                                            {{ form.description(class="form-control input-sm") }}
+                                                            {% endif %}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">Module</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+
+                                                            <select name="module" class="form-select form-select-sm"
+                                                                aria-label=".form-select-sm example">
+                                                                <option selected>De quel module</option>
+                                                                {% for module in modules %}
+                                                                <option name="module" value="{{module.id}} ">
+                                                                    {{module.id}} {{module.nomduModule}}</option>
+                                                                {% endfor %}
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-success notika-btn-success">Ajouter</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif%}
+
+    </div>
+</div>
+
+
+<br><br>
+<div class="normal-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list">
+                    <div class="basic-tb-hd">
+                        <h2>La liste des matiéres</h2>
+
+                    </div>
+                    <div class="bsc-tbl">
+                        <table class="table table-sc-ex">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom Matiere</th>
+                                    <th>Coefficient</th>
+                                    <th>Description</th>
+                                    <th>Module matiére</th>
+                                    {% if current_user.role =='admin' %}
+                                    <th>Modifier</th>
+                                    <th>Supprimer</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for matiere in matieres.items %}
+                                <tr>
+                                    <td>{{ matiere.id}}</td>
+                                    <td>{{matiere.nomMatiere}}</td>
+                                    <td>{{matiere.coefficient}} </td>
+
+                                    <td>{{matiere.description}}</td>
+                                    <td>{{matiere.ModuleMatiere.nomduModule}}</td>
+                                    {% if current_user.role =='admin' %}
+                                    <td><a href="/updateMatiere/{{matiere.id}}" class="btn btn-info info-icon-notika"
+                                            data-toggle="modal" data-target="#modaledit{{matiere.id}}"><i
+                                                class="notika-icon notika-refresh"></i></a></td>
+
+                                    <td>
+                                        <form action="{{ url_for('deleteMatiere') }}" method="POST">
+                                            <input type="hidden" name="id" value="{{matiere.id}}">
+                                            <button type="submit" class="btn btn-danger danger-icon-notika"><i
+                                                    class="notika-icon notika-close"></i></button>
+
+                                        </form>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                <div class="modals-default-cl">
+                                    <div id="modaledit{{matiere.id}}" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modals-default">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{url_for('updateMatiere')}}" method="POST">
+                                                        <label class="hrzn-fm">Modifier matiére :</label>
+
+                                                        <div class="modal-body">
+
+
+                                                            <input type="hidden" name="id" value="{{matiere.id}}">
+
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label class="hrzn-fm">Nom matiere</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                                    <div class="nk-int-st">
+
+                                                                        <input type="text" class="form-control input-sm"
+                                                                            name="nomMatiere"
+                                                                            value="{{matiere.nomMatiere}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <div class="row">
+
+
+                                                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label class="hrzn-fm">Coefficient</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                                    <div class="nk-int-st">
+                                                                        <input type="text" class="form-control input-sm"
+                                                                            name="coefficient"
+                                                                            value="{{matiere.coefficient}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label class="hrzn-fm">Description</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                                    <div class="nk-int-st">
+                                                                        <input type="text" class="form-control input-sm"
+                                                                            name="description"
+                                                                            value="{{matiere.description}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+
+                                                            <div class="row">
+                                                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label class="hrzn-fm">Module</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                                    <div class="nk-int-st">
+
+                                                                        <select name="module"
+                                                                            class="form-select form-select-sm"
+                                                                            aria-label=".form-select-sm example">
+                                                                            < {% for module in modules %} <option
+                                                                                name="module" value="{{module.id}} ">
+                                                                                {{module.id}} {{module.nomduModule}}
+                                                                                </option>
+                                                                                {% endfor %}
+                                                                        </select>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-default"
+                                                                    type="submit">Update</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                {% endfor %}
+
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        <br>
+        <div>
+            <ul class="wizard-nav-ac">
+
+                {% for page_num in matieres.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                {% if matieres.page == page_num %}
+                <a class="btn btn-warning mb-4" href="{{ url_for('matiers', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                <a class="btn btn-outline-lightblue mb-4" href="{{ url_for('matiers', page=page_num) }}">{{ page_num
+                    }}</a>
+                {% endif %}
+                {% else %}
+                ...
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock content %}

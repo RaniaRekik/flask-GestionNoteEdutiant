@@ -1,0 +1,230 @@
+{% extends "navbar.html" %}
+{% block content %}
+<div class="form-example-area">
+    <div class="container">
+        {% if current_user.role =='admin' %}
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-example-wrap mg-t-30">
+                    <div class="cmp-tb-hd cmp-int-hd">
+                        <div class="modals-hd">
+                            <h2>Nouvelle Spécialté</h2>
+
+                        </div>
+                        <div class="modals-default-cl">
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#myModalone">Ajouter Une Spécialité</button>
+
+                            <div class="modal fade" id="myModalone" role="dialog">
+                                <div class="modal-dialog modals-default">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="" novalidate>
+                                                {{ form.hidden_tag() }}
+
+                                                <label class="hrzn-fm">Spécialité d'étude</label>
+
+                                                <div class="nk-int-st">
+                                                    {% if form.nomSpecialite.errors %}
+                                                    {{ form.nomSpecialite(class="form-control form-control-lg
+                                                    is-invalid") }}
+                                                    {% for error in form.nomSpecialite.errors %}
+                                                    <span style="color:red">{{ error }}</span>
+                                                    {% endfor %}
+
+                                                    {% else %}
+                                                    {{ form.nomSpecialite(class="form-control input-sm") }}
+                                                    {% endif %}
+
+                                                </div>
+                                                <br><br>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-default">Ajouter</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-example-int form-horizental">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {%endif%}
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list mg-t-30">
+                    <div class="basic-tb-hd">
+
+                        <h2>La liste des spécialitées</h2>
+                    </div>
+                    <div class="bsc-tbl-cls">
+
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom Spécialité</th>
+                                    {% if current_user.role =='admin' %}
+                                    <th>Modifeir</th>
+                                    <th>Supprimer</th>
+                                    {%endif%}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for specialite in specialites.items %}
+                                <tr>
+                                    <td>{{ specialite.id }}</td>
+                                    <td>{{ specialite.nomSpecialite }}</td>
+                                    {% if current_user.role =='admin' %}
+                                    <td>
+                                        <a href="/update/{{specialite.id}}" class="btn btn-info info-icon-notika"
+                                            data-toggle="modal" data-target="#modaledit{{specialite.id}}"><i
+                                                class="notika-icon notika-refresh"></i></a>
+                                    </td>
+                                    <td>
+
+                                        <form action="{{ url_for('deleteSpecialite') }}" method="POST">
+                                            <input type="hidden" name="id" value="{{specialite.id}}">
+                                            <button type="submit" class="btn btn-danger danger-icon-notika"><i
+                                                    class="notika-icon notika-close"></i></button>
+                                        </form>
+                                    </td>
+                                    {%endif%}
+                                </tr>
+
+                                <div class="modals-default-cl">
+                                    <div id="modaledit{{specialite.id}}" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modals-default">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{url_for('updateSpecialite')}}" method="POST">
+                                                        <label class="hrzn-fm">Spécialité d'étude</label>
+
+                                                        <div class="modal-body">
+                                                            <div class="nk-int-st">
+                                                                <label> modifier Specialité :</label>
+
+                                                                <input type="hidden" name="id"
+                                                                    value="{{specialite.id}}">
+                                                                <input type="text" class="form-control input-sm"
+                                                                    name="nomSpecialite"
+                                                                    value="{{specialite.nomSpecialite}}">
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="modal-footer">
+
+                                                            <button class="btn btn-default"
+                                                                type="submit">Update</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--  delete-->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                                                <button type="button" class="close" data-dismiss="modal1"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal1">Close</button>
+                                                <form action="{{ url_for('deleteSpecialite') }}" method="POST">
+                                                    <input type="hidden" name="id" value="{{specialite.id}}">
+                                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  edite-->
+
+                                <div class="modals-default-cl">
+                                    <div id="deleteModal{{specialite.id}}" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modals-default">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <label class="hrzn-fm">Spécialité d'étude</label>
+
+                                                    <div class="modal-body">
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="modal-footer">
+                                                        <form action="{{ url_for('deleteSpecialite') }}" method="POST">
+                                                            <input type="hidden" name="id" value="{{specialite.id}}">
+                                                            <input class="btn btn-danger" type="submit" value="Delete">
+
+                                                            <button class="btn btn-default"
+                                                                type="submit">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                    </div>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<br>
+    <div >
+        <ul class="wizard-nav-ac">
+
+            {% for page_num in specialites.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+            {% if specialites.page == page_num %}
+            <a class="btn btn-warning mb-4" href="{{ url_for('addSpecialite', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+            <a class="btn btn-outline-lightblue mb-4" href="{{ url_for('addSpecialite', page=page_num) }}">{{ page_num
+                }}</a>
+            {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+   </div>
+</div>
+</div>
+</div>
+
+
+{% endblock content %}

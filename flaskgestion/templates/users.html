@@ -1,0 +1,286 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+
+<div class="form-example-area">
+    <div class="container">
+        <form method="POST" action="" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-example-wrap mg-t-30">
+                        <div class="cmp-tb-hd cmp-int-hd">
+                            <h2>Ajouter un compte</h2>
+                        </div>
+                        <div class="form-example-int form-horizental">
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">Nom et prenom</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                        <div class="nk-int-st">
+
+
+                                            {% if form.nomETprenom.errors %}
+                                            {{ form.nomETprenom(class="form-control
+                                            form-control-lg is-invalid") }}
+
+                                            {% for error in form.nomETprenom.errors %}
+                                            <span style="color:red">{{ error }}</span>
+                                            {% endfor %}
+
+                                            {% else %}
+                                            {{ form.nomETprenom(class="form-control") }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">role</label>
+                                    </div>
+                                    <select name="role" class="form-select" aria-label="Default select example">
+                                        <option disabled>Choisir une spécialité</option>
+                                        <option name="role" value="enseignant">Enseignant
+                                        </option>
+                                        <option name="role" value="etudiant">Etudiant
+                                        </option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">Email Address</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                        <div class="nk-int-st">
+
+
+                                            {% if form.email.errors %}
+                                            {{ form.email(class="form-control
+                                            form-control-lg is-invalid") }}
+
+                                            {% for error in form.email.errors %}
+                                            <span style="color:red">{{ error }}</span>
+                                            {% endfor %}
+
+                                            {% else %}
+                                            {{ form.email(class="form-control") }}
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-example-int form-horizental ">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">Password</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                        <div class="nk-int-st">
+
+
+                                            {% if form.password.errors %}
+                                            {{ form.password(class="form-control
+                                            form-control-lg is-invalid") }}
+
+                                            {% for error in form.password.errors %}
+                                            <span style="color:red">{{ error }}</span>
+                                            {% endfor %}
+
+                                            {% else %}
+                                            {{ form.password(class="form-control") }}
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-example-int form-horizental mg-t-15">
+
+                        </div>
+                        <div class="form-example-int mg-t-15">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                </div>
+                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+
+                                    <button type="submit" class="btn btn-success success-icon-notika">Ajouter</button>
+
+                                </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+    <div class="normal-table-list mg-t-30">
+        <div class="basic-tb-hd">
+            <h2>La liste des comptes</h2>
+
+        </div>
+        <div class="bsc-tbl-cls">
+            <table class="table table-cl">
+                <thead>
+                    <tr class="success">
+                        <th>#</th>
+                        <th>Non et prenom</th>
+
+                        <th>role</th>
+                        <th>email</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+
+                    </tr>
+                </thead>
+
+
+
+                </tr>
+                {% for user in users.items %}
+
+
+                <tr class="active">
+                    <td>{{user.id}}</td>
+                    <td>{{user.nomETprenom}}</td>
+                    <td>{{user.role}}</td>
+                    <td>{{user.email}}</td>
+
+                    <td><a href="/updateUser/{{user.id}}" class="btn btn-info info-icon-notika" data-toggle="modal"
+                            data-target="#modaledit{{user.id}}"><i class="notika-icon notika-refresh"></i></a></td>
+
+
+                    <td>
+                        <form action="{{ url_for('deleteUser') }}" method="POST">
+                            <input type="hidden" name="id" value="{{user.id}}">
+                            <button type="submit" class="btn btn-danger danger-icon-notika"><i
+                                    class="notika-icon notika-close"></i></button>
+
+                        </form>
+                    </td>
+                </tr>
+                <div class="modals-default-cl">
+                    <div id="modaledit{{user.id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog modals-default">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{url_for('updateUser')}}" method="POST">
+                                        <label class="hrzn-fm">Modifier utilisateur :</label>
+
+                                        <div class="modal-body">
+
+
+                                            <input type="hidden" name="id" value="{{user.id}}">
+
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                    <label class="hrzn-fm">Nom et prenom</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                    <div class="nk-int-st">
+
+                                                        <input type="text" class="form-control input-sm"
+                                                            name="nomETprenom" value="{{user.nomETprenom}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                    <label class="hrzn-fm">Role</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                    <div class="nk-int-st">
+
+                                                        <select name="role" class="form-select form-select-sm"
+                                                            aria-label=".form-select-sm example">
+
+                                                            <option name="role" value="enseignant">
+                                                                enseignant </option>
+                                                            <option name="role" value="etudiant">
+                                                                etudiant</option>
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                    <label class="hrzn-fm">Email</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                    <div class="nk-int-st">
+                                                        <input type="text" class="form-control input-sm" name="email"
+                                                            value="{{user.email}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default" type="submit">Update</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor%}
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+<br>
+<div>
+    <ul class="wizard-nav-ac">
+
+        {% for page_num in users.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if users.page == page_num %}
+        <a class="btn btn-warning mb-4" href="{{ url_for('users', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+        <a class="btn btn-outline-lightblue mb-4" href="{{ url_for('users', page=page_num) }}">{{ page_num
+            }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+
+
+{% endblock content %}

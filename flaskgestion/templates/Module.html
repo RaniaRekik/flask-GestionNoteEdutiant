@@ -1,0 +1,294 @@
+{% extends "navbar.html" %}
+{% block content %}
+
+
+<div class="form-example-area">
+    <div class="container">
+        {% if current_user.role =='admin' %}
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="modals-list mg-t-30">
+                    <div class="modals-single">
+                        <div class="modals-hd">
+                            <h2>Nouveau Module</h2>
+
+                        </div>
+                        <div class="modals-default-cl">
+
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#myModalone">Ajouter un module</button>
+
+                            <div class="modal fade" id="myModalone" role="dialog">
+                                <div class="modal-dialog modals-default">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2>Ajouter un module</h2>
+
+                                            <form method="POST" action="" novalidate>
+                                                {{ form.hidden_tag() }}
+
+
+
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">Nom module</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+
+                                                        <div class="nk-int-st">
+                                                            {% if form.nomduModule.errors %}
+                                                            {{ form.nomduModule(class="form-control form-control-lg
+                                                            is-invalid") }}
+
+                                                            {% for error in form.nomduModule.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+
+                                                            {% else %}
+                                                            {{ form.nomduModule(class="form-control input-sm") }}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+
+
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">Semestre</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                                        <div class="nk-int-st">
+
+                                                            <select name="nomSemestre"
+                                                                class="form-select form-select-sm"
+                                                                aria-label=".form-select-sm example">
+                                                                <option disabled>Choisir la semestre</option>
+
+                                                                <option name="nomSemestre" value="Semestre1">Semestre 1
+                                                                </option>
+                                                                <option name="nomSemestre" value="Semestre2">Semestre 2
+                                                                </option>
+                                                            </select>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                                        <label class="hrzn-fm">Coefficient</label>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+
+                                                        <div class="nk-int-st">
+
+                                                            {% if form.coefficientModule.errors %}
+                                                            {{ form.coefficientModule(class="form-control
+                                                            form-control-lg is-invalid") }}
+
+                                                            {% for error in form.coefficientModule.errors %}
+                                                            <span style="color:red">{{ error }}</span>
+                                                            {% endfor %}
+
+                                                            {% else %}
+                                                            {{ form.coefficientModule(class="form-control input-sm") }}
+                                                            {% endif %}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-success notika-btn-success">Ajouter</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list mg-t-30">
+                    <div class="basic-tb-hd">
+                        <h2>La liste de tout les Modules </h2>
+
+                    </div>
+                    <div class="bsc-tbl-cls">
+
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom Module</th>
+                                    <th>Semestre</th>
+                                    <th>Coefficient</th>
+                                    {% if current_user.role =='admin' %}
+                                    <th>Modifier</th>
+                                    <th>Supprimer</th>
+
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for module in modules.items %}
+                                <tr>
+
+                                    <td>{{ module.id }}</td>
+                                    <td>{{module.nomduModule}}</td>
+                                    <td>{{module.nomSemestre}}</td>
+                                    <td>{{module.coefficientModule}}</td>
+                                    {% if current_user.role =='admin' %}
+                                    <td> <a href="/update/{{module.id}}" class="btn btn-info info-icon-notika"
+                                            data-toggle="modal" data-target="#modaledit{{module.id}}"><i
+                                                class="notika-icon notika-refresh"></i></a></td>
+
+                                    <td>
+                                        <form action="{{ url_for('deleteModule') }}" method="POST">
+                                            <input type="hidden" name="id" value="{{module.id}}">
+                                            <button type="submit" class="btn btn-danger danger-icon-notika"><i
+                                                    class="notika-icon notika-close"></i></button>
+                                        </form>
+
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                <div class="modals-default-cl">
+                                    <div id="modaledit{{module.id}}" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modals-default">
+
+
+                                            <div class="modal-content">
+
+
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+
+
+                                                    <form action="{{url_for('updateModule')}}" method="POST">
+                                                        <label class="hrzn-fm">Module de matiére</label>
+
+                                                        <div class="modal-body">
+                                                            <div class="nk-int-st">
+                                                                <label> modifier Specialite :</label>
+
+                                                                <input type="hidden" name="id" value="{{module.id}}">
+                                                                <label class="hrzn-fm">Nom module</label>
+
+                                                                <input type="text" class="form-control input-sm"
+                                                                    name="nomduModule" value="{{module.nomduModule}}">
+                                                            </div>
+                                                            <br> <br>
+                                                            <label class="hrzn-fm">semestre</label>
+
+                                                            <select name="nomSemestre" value="{{module.nomSemestre}}"
+                                                                class="form-select form-select-sm"
+                                                                aria-label=".form-select-sm example">
+                                                                {% if module.nomSemestre=='Semestre1' %}
+                                                                <option selected name="nomSemestre" value="Semestre1">
+                                                                    Semestre 1</option>
+                                                                <option name="nomSemestre" value="Semestre2">Semestre 2
+                                                                </option>
+                                                                {% endif %}
+                                                                {% if module.nomSemestre=='Semestre2' %}
+                                                                <option name="nomSemestre" value="Semestre1">Semestre 1
+                                                                </option>
+                                                                <option selected name="nomSemestre" value="Semestre2">
+                                                                    Semestre 2</option>
+                                                                {% endif %}
+                                                                </option>
+                                                            </select>
+                                                            <br>
+                                                            <label class="hrzn-fm">coefficient</label>
+                                                            <div class="nk-int-st">
+                                                                <input type="text" class="form-control input-sm"
+                                                                    name="coefficientModule"
+                                                                    value="{{module.coefficientModule}}">
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <br>
+
+                                                <div class="modal-footer">
+
+                                                    <button class="btn btn-default" type="submit">Update</button>
+                                                    </form>
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                    </div>
+
+
+                    {% endfor %}
+                    </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <div>
+                <ul class="wizard-nav-ac">
+
+                    {% for page_num in modules.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                    {% if modules.page == page_num %}
+                    <a class="btn btn-warning mb-4" href="{{ url_for('Modules', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                    <a class="btn btn-outline-lightblue mb-4" href="{{ url_for('Modules', page=page_num) }}">{{ page_num
+                        }}</a>
+                    {% endif %}
+                    {% else %}
+                    ...
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+</div>
+</div>
+</div>
+
+</form>
+{% endblock content %}
